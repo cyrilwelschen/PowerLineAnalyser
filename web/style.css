@@ -62,9 +62,11 @@ p {
     z-index: 9;
 }
 
+.form-inline {
+    margin: 30px;
+}
 
 .wellcome-heading > h2 {
-    font-size: 80px;
     color: #ffffff;
     font-weight: 700;
     position: relative;
@@ -74,7 +76,7 @@ p {
 .get-start-area .email {
     background: #9572e8;
     height: 50px;
-    max-width: 260px;
+    width: 70%;
     border: none;
     border-radius: 24px;
     padding: 0px 15px;
@@ -133,7 +135,7 @@ p {
 }
 
 .wellcome-heading > h3 {
-    font-size: 332px;
+    font-size: 102px;
     position: absolute;
     top: -134px;
     font-weight: 900;
@@ -144,6 +146,9 @@ p {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 }
 
+.wellcome-heading > h5 {
+    color: #fff;
+}
 .wellcome-heading {
     margin-bottom: 50px;
 }

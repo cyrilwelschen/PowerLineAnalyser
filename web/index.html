@@ -18,14 +18,23 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12 col-md">
                     <div class="wellcome-heading">
-                        <h2>Power Line Analyser</h2>
-                        <p>Automated measuring of mCAN power line connections.</p>
-                    </div>
-                    <div class="get-start-area">
-                        <form class="form-inline">
-                            <input type="text" id="data" class="form-control email" placeholder="Enter text">
-                            <input type="button" class="submit" value="Get QR Code" onclick="generateQRCode()">
-                        </form>
+                        <h3>Power Line Analyser</h3>
+                        <h2>How should the reports be exported:</h2>
+                        <h5><b>1. Email</b>: Enter Email below</h5>
+                        <div class="get-start-area">
+                            <form class="form-inline">
+                                <input type="text" id="data" class="form-control email"
+                                    placeholder="Enter e-mail adress">
+                                <input type="button" class="submit" value="Continue" onclick="generateQRCode()">
+                            </form>
+                        </div>
+                        <h5><b>2. Download</b>: Select direcotry location</h5>
+                        <div class="get-start-area">
+                            <form class="form-inline">
+                                <input type="text" id="data" class="form-control email" placeholder="Select directory">
+                                <input type="button" class="submit" value="Continue" onclick="generateQRCode()">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,6 +43,7 @@
             <img id="qr" src="" width="70%">
         </div>
     </section>
+    <p style="text-align: center; margin-top: 15px">Automated measuring of mCAN power line connections.</p>
 </body>
 
 </html>
