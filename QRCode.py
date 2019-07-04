@@ -22,4 +22,4 @@ def generate_qr(data):
     return "data:image/png;base64, " + encoded
 
 
-eel.start('index.html', size=(1000, 600))
+eel.start('index.html', size=(1300, 750))

@@ -48,7 +48,7 @@ p {
 
 .wellcome_area {
     background-image: url(img/bg-img/welcome-bg.png);
-    height: 500px;
+    height: 650px;
     position: relative;
     z-index: 1;
     background-position: bottom center;
@@ -59,7 +59,6 @@ p {
     width: 42%;
     position: absolute;
     bottom: 50px;
-    right: -10px;
     z-index: 9;
 }
 
@@ -146,5 +145,5 @@ p {
 }
 
 .wellcome-heading {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
