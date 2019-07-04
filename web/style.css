@@ -143,7 +143,6 @@ p {
     z-index: -1;
     color: #fff;
     opacity: .1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 }
 
 .wellcome-heading > h5 {
