@@ -104,12 +104,8 @@ def imp_analyser():
     dwf.FDwfAnalogImpedanceConfigure(hdwf, c_int(0)) # stop
     dwf.FDwfDeviceClose(hdwf)
 
-    from Tkinter import Tk
-    from tkinter.filedialog import askopenfilename
+@eel.btl.route('/measur')
+def measur():
+    eel.route('/measurement_main')
 
-    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-    print(filename)
-
-
-eel.start('index.html', size=(1300, 750))
+eel.start('start_save.html', size=(1300, 750))
