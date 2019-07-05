@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Power Line Analyser</title>
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+</head>
+
+<body>
+    <section class="wellcome_area clearfix" id="home">
+        <div class="containe" style="padding: 5%">
+            <div class="row align-items-center">
+                <div class="col-12 col-md">
+                    <div class="wellcome-heading">
+                        <h2>Power Line Analyser</h2>
+                    </div>
+
+                    <div class="measurement">
+                        <div class="meas_header">
+                            <h5><b>1. Voltage Measurements </b></h5>
+                            <button style="padding: 1px" class="btn btn-warning"
+                                onclick="measureVoltage()">measure</button>
+                        </div>
+                        <div class="get-start-area meas_body">
+                            <form class="form-inline">
+                                <label class="lab_space">Voltage DC:</label>
+                                <a>a-gnd: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_dc_a_gnd">...</a> VDC
+                                </div>
+                                <a>b-gnd: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_dc_b_gnd">...</a> VDC
+                                </div>
+                                <a>a-b: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_dc_a_b">...</a> VDC
+                                </div>
+                                <label class="lab_space">Voltage AC:</label>
+                                <a>a-gnd: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_ac_a_gnd">...</a> V
+                                </div>
+                                <a>b-gnd: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_ac_b_gnd">...</a> V
+                                </div>
+                                <a>a-b: </a>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px; margin: 10px">
+                                    <a id="voltage_ac_a_b">...</a> V
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="measurement">
+                        <div class="meas_header">
+                            <h5><b>2. Isolation Measurements </b></h5>
+                            <button style="padding: 1px" class="btn btn-warning"
+                                onclick="measureVoltage()">measure</button>
+                        </div>
+                        <div class="get-start-area meas_body">
+                            <form class="form-inline">
+                                <label class="lab_space">Voltage DC:</label>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px">
+                                    <a id="voltage_dc">... VDC</a>
+                                </div>
+                                <label class="lab_space">Voltage AC:</label>
+                                <div class="badge badge-warning text-wrap" style="padding: 10px">
+                                    <a id="voltage_ac">... V</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="welcome-thumb">
+            <img id="qr" src="" width="70%">
+        </div>
+    </section>
+    <p style="text-align: center; margin-top: 15px">Automated measuring of mCAN power line connections.</p>
+</body>
+
+</html>

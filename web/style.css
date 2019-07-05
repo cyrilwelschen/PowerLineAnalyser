@@ -9,6 +9,20 @@
 body {
     font-family: 'Cabin', sans-serif;
     background-color: #fff;
+    color: #fff;
+}
+
+label.lab_space {
+    padding: 20px;
+    font-size: 20px;
+}
+
+.meas_header {
+    white-space: nowrap;
+}
+
+.meas_header * {
+    display: inline;
 }
 
 h1,
@@ -19,7 +33,6 @@ h5,
 h6 {
     font-family: 'Cabin', sans-serif;
     font-weight: 400;
-    color: #000;
     line-height: 1.2;
 }
 
@@ -63,7 +76,7 @@ p {
 }
 
 .form-inline {
-    margin: 30px;
+    margin: 10px;
 }
 
 .wellcome-heading > h2 {

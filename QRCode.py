@@ -104,8 +104,126 @@ def imp_analyser():
     dwf.FDwfAnalogImpedanceConfigure(hdwf, c_int(0)) # stop
     dwf.FDwfDeviceClose(hdwf)
 
+
+@eel.expose
+def sample_voltage():
+    if sys.platform.startswith("win"):
+        dwf = cdll.dwf
+    elif sys.platform.startswith("darwin"):
+        dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+    else:
+        dwf = cdll.LoadLibrary("libdwf.so")
+
+    #declare ctype variables
+    hdwf = c_int()
+    voltage1 = c_double()
+    voltage2 = c_double()
+
+    #print(DWF version
+    version = create_string_buffer(16)
+    dwf.FDwfGetVersion(version)
+    print("DWF Version: "+str(version.value))
+
+    #open device
+    "Opening first device..."
+    dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
+
+    if hdwf.value == hdwfNone.value:
+        szerr = create_string_buffer(512)
+        dwf.FDwfGetLastErrorMsg(szerr)
+        print(szerr.value)
+        print("failed to open device")
+        quit()
+
+    print("Preparing to read sample...")
+    dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True)) 
+    dwf.FDwfAnalogInChannelOffsetSet(hdwf, c_int(0), c_double(0)) 
+    dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(0), c_double(5)) 
+    dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(False)) 
+
+    time.sleep(2)
+
+    for i in range(5):
+        time.sleep(0.1)
+        dwf.FDwfAnalogInStatus(hdwf, False, None) 
+        dwf.FDwfAnalogInStatusSample(hdwf, c_int(0), byref(voltage1))
+        dwf.FDwfAnalogInStatusSample(hdwf, c_int(1), byref(voltage2))
+        print("Channel 1: {} V  Channel 2: {} V".format(voltage1.value, voltage2.value), end="\r", flush=True)
+    dwf.FDwfDeviceCloseAll()
+    # return [voltage1.value, voltage2.value, voltage1.value - voltage2.value]
+    digits = 2
+    return [round(voltage1.value, digits), round(voltage2.value, digits), round(voltage1.value - voltage2.value, digits)]
+
+
+@eel.expose
+def sample_voltage_dc():
+    if sys.platform.startswith("win"):
+        dwf = cdll.dwf
+    elif sys.platform.startswith("darwin"):
+        dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+    else:
+        dwf = cdll.LoadLibrary("libdwf.so")
+
+    #declare ctype variables
+    hdwf = c_int()
+    sts = c_byte()
+    rgdSamplesCh1 = (c_double*4000)()
+    rgdSamplesCh2 = (c_double*4000)()
+
+    version = create_string_buffer(16)
+    dwf.FDwfGetVersion(version)
+    print("DWF Version: "+str(version.value))
+
+    #open device
+    print("Opening first device")
+    dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
+
+    if hdwf.value == hdwfNone.value:
+        szerr = create_string_buffer(512)
+        dwf.FDwfGetLastErrorMsg(szerr)
+        print(szerr.value)
+        print("failed to open device")
+        quit()
+
+    cBufMax = c_int()
+    dwf.FDwfAnalogInBufferSizeInfo(hdwf, 0, byref(cBufMax))
+    print("Device buffer size: "+str(cBufMax.value)) 
+
+    #set up acquisition
+    dwf.FDwfAnalogInFrequencySet(hdwf, c_double(20000000.0))
+    dwf.FDwfAnalogInBufferSizeSet(hdwf, c_int(4000)) 
+    dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True))
+    dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(0), c_double(5))
+
+    #wait at least 2 seconds for the offset to stabilize
+    time.sleep(2)
+
+    print("Starting oscilloscope")
+    dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(True))
+
+    while True:
+        dwf.FDwfAnalogInStatus(hdwf, c_int(1), byref(sts))
+        if sts.value == DwfStateDone.value :
+            break
+        time.sleep(0.1)
+    print("Acquisition done")
+
+    dwf.FDwfAnalogInStatusData(hdwf, 0, rgdSamplesCh1, 4000) # get channel 1 data
+    dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamplesCh2, 4000) # get channel 2 data
+    dwf.FDwfDeviceCloseAll()
+
+    #plot window
+    dc1 = sum(rgdSamplesCh1)/len(rgdSamplesCh1)
+    dc2 = sum(rgdSamplesCh2)/len(rgdSamplesCh2)
+    dc21 = dc1 - dc2
+    # return [dc1, dc2, dc21]
+    return [round(dc1, 2), round(dc2, 2), round(dc21, 2)]
+
+    # plt.plot(numpy.fromiter(rgdSamples, dtype = numpy.float))
+    # plt.show()
+
 @eel.btl.route('/measur')
 def measur():
     eel.route('/measurement_main')
 
-eel.start('start_save.html', size=(1300, 750))
+eel.start('main.html', size=(1300, 750))

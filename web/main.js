@@ -12,6 +12,27 @@ function browseResult(e) {
 	console.log(fileselector.value);
 }
 
+function measureVoltage() {
+	eel.sample_voltage()(sampleVoltage)
+	eel.sample_voltage_dc()(sampleVoltageDc)
+}
+
+function sampleVoltage(e) {
+	console.log("sampleVoltage");
+	console.log("Return was " + e);
+	document.getElementById("voltage_ac_a_gnd").innerHTML = e[0];
+	document.getElementById("voltage_ac_b_gnd").innerHTML = e[1];
+	document.getElementById("voltage_ac_a_b").innerHTML = e[2];
+}
+
+function sampleVoltageDc(r) {
+	console.log("sampleVolgateDc")
+	console.log("Return VDC was " + r)
+	document.getElementById("voltage_dc_a_gnd").innerHTML = r[0];
+	document.getElementById("voltage_dc_b_gnd").innerHTML = r[1];
+	document.getElementById("voltage_dc_a_b").innerHTML = r[2];
+}
+
 function saveEmail() {
 	var mail = document.getElementById('email_input').value;
 	if (mail != "") {
