@@ -10,9 +10,6 @@ import sys
 import numpy
 import matplotlib.pyplot as plt
 
-
-eel.init('web')
-
 if sys.platform.startswith("win"):
     dwf = cdll.LoadLibrary("dwf.dll")
 elif sys.platform.startswith("darwin"):
@@ -33,6 +30,8 @@ if hdwf.value == hdwfNone.value:
     print(szerr.value)
     print("failed to open device")
     quit()
+
+eel.init('web')
 
 @eel.expose
 def dummy(dummy_param):
@@ -129,8 +128,27 @@ def sample_voltage_ac():
 
 @eel.expose
 def sample_voltage_dc():
+    if sys.platform.startswith("win"):
+        dwf = cdll.LoadLibrary("dwf.dll")
+    elif sys.platform.startswith("darwin"):
+        dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+    else:
+        dwf = cdll.LoadLibrary("libdwf.so")
+
+    hdwf = c_int()
+    version = create_string_buffer(16)
+    dwf.FDwfGetVersion(version)
+    print("DWF Version: "+str(version.value))
+    #open device
+    print("Opening first device")
+    dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
+    if hdwf.value == hdwfNone.value:
+        szerr = create_string_buffer(512)
+        dwf.FDwfGetLastErrorMsg(szerr)
+        print(szerr.value)
+        print("failed to open device")
+        quit()
     print("Start sampling DC voltage")
-    #declare ctype variables
     sts = c_byte()
     rgdSamplesCh1 = (c_double*4000)()
     rgdSamplesCh2 = (c_double*4000)()
@@ -164,4 +182,4 @@ def sample_voltage_dc():
     # plt.plot(numpy.fromiter(rgdSamples, dtype = numpy.float))
     # plt.show()
 
-eel.start('main.html', size=(1300, 750))
+eel.start('main_new.html', size=(1300, 750))
