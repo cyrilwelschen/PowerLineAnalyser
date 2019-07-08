@@ -13,11 +13,14 @@ function browseResult(e) {
 }
 
 function measureVoltage() {
-	eel.sample_voltage()(sampleVoltage)
+	console.log("start measureing voltages")
+	console.log("measure AC")
+	eel.sample_voltage_ac()(sampleVoltageAc)
+	console.log("measure DC")
 	eel.sample_voltage_dc()(sampleVoltageDc)
 }
 
-function sampleVoltage(e) {
+function sampleVoltageAc(e) {
 	console.log("sampleVoltage");
 	console.log("Return was " + e);
 	document.getElementById("voltage_ac_a_gnd").innerHTML = e[0];
